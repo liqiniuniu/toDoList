@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>React3</title>
+        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdn.bootcss.com/react/16.4.0/umd/react.development.js"></script>
+        <script src="https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.development.js"></script>
+        <script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+    </head>
+    <style>
+        #wrap{
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
+    <body>
+        <div id="app"></div>
+        <script src="/static/js/jquery-1.12.4.js"></script>
+        <script src="/static/js/getRequest.js"></script>
+        <script src="/static/js/postRequest.js"></script>
+        <script src="/static/js/deleteRequest.js"></script>
+        <script src="/static/js/check.js"></script>
+        <script type="text/babel">
+            class ToDoForm extends React.Component{
+                constructor(props) {
+                    super(props);
+                    this.state = {};
+                    this.add = this.add.bind(this);
+                    this.submit = this.submit.bind(this);
+                }
+                submit(event){
+                    event.preventDefault();
+                }
+                add(event){
+                    if(event.type=="keyup"&&event.keyCode!=13){
+                        return false;
+                    }
+                    let affair = $('#affairInput').val();
+                    let time = $('#dateInput').val();
+                    let priority = $('#priorityInput').val();
+                    if(!checkDateFormat(time)){
+                        alert("Date error");
+                        return false;
+                    }
+                    let affairId = addAffairRequest({{ id }});
+                    if ( affairId >=0 ) this.props.addItem(affairId, affair, time, priority);
+                }
+                render(){
+                    return(
+                        <form className="form-horizontal" onSubmit={this.submit}>
+                            <div className="form-group">
+                                <div className="col-sm-5">
+                                    <input ref="txt"  type="text" className="form-control" id="affairInput" placeholder="input the affair......"/>
+                                </div>
+                                <div className="col-sm-3">
+                                    <input ref="txt"  type="text" className="form-control" id="dateInput" placeholder="date format:YYYY-MM-DD"/>
+                                </div>
+                                <div className="col-sm-2">
+                                    <select id="priorityInput" className="form-control" >
+                                        <option value="1">普通</option>
+                                        <option value="2">紧急</option>
+                                        <option value="3">重要</option>
+                                    </select>
+                                </div>
+
+                                <div className="col-sm-2">
+                                    <button type="button" className="btn btn-primary" onClick={this.add}>添加</button>
+                                </div>
+                            </div>
+                        </form>
+                    );
+                }
+            }
+            class ToDoItem extends React.Component{
+                update(){
+                    let flag = updateAffairRequest(this.props.data.id,
+                                      document.getElementById('affair').innerText,
+                                      document.getElementById('time').innerText,
+                                      document.getElementById('priority').innerText)
+                    if(flag) alert('update successfully')
+                    else alert('faile to update')
+                }
+                delete(){
+                    if( deleteAffairRequest(this.props.data.id) ) this.props.deleteItem(this.props.data.id);
+                }
+                complete(){
+                    if( finishAffairRequest(this.props.data.id)) this.props.finishItem(this.props.data.id);
+                }
+                render(){
+                    let {affair,time, priority, finished}=this.props.data;
+                    return (
+                       <tr>
+                           <td contentEditable={true} id="affair">{affair}</td>
+                           <td contentEditable={true} id="time">{time}</td>
+                           <td contentEditable={true} id="priority">{priority==1?"普通":(priority==2?"紧急":"重要")}</td>
+                           <td>{finished==0?"未完成":"完成"}</td>
+                           <td>
+                               <a className="btn btn-primary" onClick={this.delete.bind(this)}>删除</a>
+                               <a className="btn btn-info" onClick={this.complete.bind(this)}>完成</a>
+                               <a className="btn btn-success" onClick={this.update.bind(this)}>更新</a>
+                            </td>
+                       </tr>
+                    );
+                }
+            }
+            class ToDoList extends React.Component{
+                render(){
+                    let todos=this.props.data;
+                    let todoItems=todos.map(item=>{
+                        return <ToDoItem finishItem={this.props.finishItem} deleteItem={this.props.deleteItem} data={item}/>
+                    });
+
+                    return (
+                        <div>
+                            <br/><br/>
+                            <div id="wrap">
+                                <div className="c0l-sm-2">
+                                    <button type="button" className="btn btn-primary" onClick={this.props.allrequest}>全部事宜</button>
+                                </div>
+                                <div className="c0l-sm-2">
+                                    <button type="button" className="btn btn-primary" onClick={this.props.todayrequest}>今日事宜</button>
+                                </div>
+                                <div className="c0l-sm-2">
+                                    <button type="button" className="btn btn-primary" onClick={this.props.oneweekrequest}>本周事宜</button>
+                                </div>
+                                <div className="c0l-sm-2">
+                                    <button type="button" className="btn btn-primary" onClick={this.props.requestaspriority1}>普通事宜</button>
+                                </div>
+                                <div className="c0l-sm-2">
+                                    <button type="button" className="btn btn-primary" onClick={this.props.requestaspriority2}>紧急事宜</button>
+                                </div>
+                                <div className="c0l-sm-2">
+                                    <button type="button" className="btn btn-primary" onClick={this.props.requestaspriority3}>重要事宜</button>
+                                </div>
+                            </div><br/><br/>
+                            <table className="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th width="40%">事件(点击进行编辑)</th>
+                                        <th width="15%">时间</th>
+                                        <th width="10%">优先级</th>
+                                        <th width="10%">状态</th>
+                                        <th width="25%">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {todoItems}
+                                </tbody>
+                            </table>
+                        </div>
+                    );
+                }
+            }
+            class ToDo extends React.Component{
+                constructor(props){
+                    super(props);
+                    this.state={
+                        todos:[]
+                    };
+                    this.addItem=this.addItem.bind(this);
+                    this.deleteItem=this.deleteItem.bind(this);
+                    this.finishItem=this.finishItem.bind(this);
+                    this.allrequest = this.allrequest.bind(this)
+                    this.todayrequest = this.todayrequest.bind(this)
+                    this.oneweekrequest = this.oneweekrequest.bind(this)
+                }
+                requestaspriority(priority){
+                    let data = requestAsPriority(priority)
+                    this.setState({
+                        todos:data
+                    })
+                }
+                oneweekrequest(){
+                    let data = oneWeekRequest();
+                    this.setState({
+                        todos:data
+                    })
+                }
+                todayrequest(){
+                    let data = todayRequest();
+                    this.setState({
+                        todos:data
+                    })
+                }
+                allrequest(){
+                    let data = allRequest();
+                    let self = this ;
+                    self.setState({todos:data})
+                }
+                finishItem(id){
+                    this.state.todos.map(item=>{
+                        if(item.id==id){
+                            item.finished=1;
+                        }
+                        return item;
+                    });
+                    this.setState({
+                            todos:this.state.todos
+                    });
+                }
+                deleteItem(id){
+                    let newtodos=this.state.todos.filter((item)=>{
+                        return !(item.id==id)
+                    });
+                    this.setState({
+                        todos:newtodos
+                    });
+                }
+
+                addItem(affairId, affair, time, priority){
+                    console.log(affairId)
+                   this.state.todos.unshift({
+                            id:affairId,
+                            affair:affair,
+                            time:time,
+                            priority:priority,
+                            finished:0,
+                        })
+                    this.setState({
+                        todos:this.state.todos
+                    });
+                }
+                render(){
+                    return (
+                        <div className="container">
+                            <br/>
+                        <div className="panel panel-default">
+                            <div className="panel-headingbg-danger">
+                                    <h1 className="text-center ">ToDoList</h1>
+                                    <hr/>
+                            </div>
+                            <div className="panel-body">
+                                    <ToDoForm addItem={this.addItem}/>
+                                    <ToDoList  finishItem={this.finishItem}
+                                               deleteItem={this.deleteItem}
+                                               allrequest={this.allrequest}
+                                               todayrequest={this.todayrequest}
+                                               oneweekrequest={this.oneweekrequest}
+                                               requestaspriority1={this.requestaspriority.bind(this,1)}
+                                               requestaspriority2={this.requestaspriority.bind(this,2)}
+                                               requestaspriority3={this.requestaspriority.bind(this,3)}
+                                               data={this.state.todos}/>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                }
+            }
+            ReactDOM.render(
+                <ToDo id="ToDo"/>,
+                document.getElementById('app')
+            );
+        </script>
+    </body>
+</html>

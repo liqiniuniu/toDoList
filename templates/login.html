@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Hello React!</title>
+<script src="https://cdn.bootcss.com/react/16.4.0/umd/react.development.js"></script>
+<script src="https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+<style>
+    html { width:100%; height:100%; }
+    body {
+        font-size:18px; font-family:"Arial", "Tahoma", "微软雅黑", "雅黑";
+        line-height:18px; padding:0; margin:0; text-align:center;
+        background:url("/static/img/background.jpg") no-repeat;
+        background-size: 100%;
+    }
+</style>
+</head>
+<body>
+
+<div id="example"></div>
+
+
+<script src="/static/js/jquery-1.12.4.js"></script>
+<script src="/static/js/check.js"></script>
+<script type="text/babel">
+class Login extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+        this.loginRequest = this.loginRequest.bind(this)
+        this.goToRegister = this.goToRegister.bind(this)
+    }
+    goToRegister(){
+        location.href='/register'
+    }
+    loginRequest(){
+        if (!checkEmailFormat($('#Email').val())){
+            alert("Email error");
+            return false;
+        }
+        $.ajax({
+            url:'/login_check/',
+            type:'post',
+            data:{'Email':$('#Email').val(),'password':$('#password').val()},
+            dataType:'json',
+            success:function(data){
+                if(data.status){
+                    location.href='/index'
+                } else{
+                    alert(data.message)
+                }
+            },
+            error:function () {
+                alert('error')
+            }
+        })
+    }
+    render() {
+        return (
+            <div>
+                <p>___Email___:<input type="text" id="Email"/></p><br/>
+                <p>__password_:<input type="password" id="password"/></p> <br/>
+                <input type="button" id="loginButton" value="login" onClick={this.loginRequest}/><br/><br/>
+                <input type="button" id="registerButton" value="go to register" onClick={this.goToRegister}/>
+            </div>
+        );
+    }
+}
+ReactDOM.render(
+	<Login />,
+	document.getElementById('example')
+);
+</script>
+
+</body>
+
+</html>

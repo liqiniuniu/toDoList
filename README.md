@@ -8,7 +8,7 @@ pre_work_toDoList
 4.可将某项待办事宜删除、编辑修改、标为已完成<br><br><br>
 
 登录、注册界面<br>
-![](https://github.com/liqiniuniu/toDoList/tree/master/img/login.jpg)
+![](https://github.com/liqiniuniu/toDoList/raw/master/img/login.jpg)
 ![](https://github.com/liqiniuniu/toDoList/tree/master/img/register.jpg)
 
 <br>主页面<br>

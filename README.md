@@ -9,34 +9,34 @@ pre_work_toDoList
 
 登录、注册界面<br>
 ![](https://github.com/liqiniuniu/toDoList/raw/master/img/login.jpg)
-![](https://github.com/liqiniuniu/toDoList/tree/master/img/register.jpg)
+![](https://github.com/liqiniuniu/toDoList/raw/master/img/register.jpg)
 
 <br>主页面<br>
-![](https://github.com/liqiniuniu/toDoList/tree/master/img/index.jpg)
+![](https://github.com/liqiniuniu/toDoList/raw/master/img/index.jpg)
 
 <br>添加待办事宜<br>
-![](https://github.com/liqiniuniu/toDoList/tree/master/img/addAffair.jpg)
+![](https://github.com/liqiniuniu/toDoList/raw/master/img/addAffair.jpg)
 
 <br>标记为完成<br>
-![](https://github.com/liqiniuniu/toDoList/tree/master/img/finish.jpg)
+![](https://github.com/liqiniuniu/toDoList/raw/master/img/finish.jpg)
 
 <br>编辑更新事宜<br>
-![](https://github.com/liqiniuniu/toDoList/tree/master/img/update.jpg)
+![](https://github.com/liqiniuniu/toDoList/raw/master/img/update.jpg)
 
 <br>展示所有待办事宜<br>
-![](https://github.com/liqiniuniu/toDoList/tree/master/img/showAll.jpg)
+![](https://github.com/liqiniuniu/toDoList/raw/master/img/showAll.jpg)
 
 <br>展示今日待办事宜<br>
-![](https://github.com/liqiniuniu/toDoList/tree/master/img/showToday.jpg)
+![](https://github.com/liqiniuniu/toDoList/raw/master/img/showToday.jpg)
 
 <br>展示未来七天待办事宜<br>
-![](https://github.com/liqiniuniu/toDoList/tree/master/img/showWeek.jpg)
+![](https://github.com/liqiniuniu/toDoList/raw/master/img/showWeek.jpg)
 
 <br>展示普通待办事宜<br>
-![](https://github.com/liqiniuniu/toDoList/tree/master/img/showOrdinary.jpg)
+![](https://github.com/liqiniuniu/toDoList/raw/master/img/showOrdinary.jpg)
 
 <br>展示紧急待办事宜<br>
-![](https://github.com/liqiniuniu/toDoList/tree/master/img/showUrgent.jpg)
+![](https://github.com/liqiniuniu/toDoList/raw/master/img/showUrgent.jpg)
 
 <br>展示重要待办事宜<br>
-![](https://github.com/liqiniuniu/toDoList/tree/master/img/showImportant.jpg)
+![](https://github.com/liqiniuniu/toDoList/raw/master/img/showImportant.jpg)
